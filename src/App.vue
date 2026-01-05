@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import confetti from 'canvas-confetti'
 
 const url = ref('')
 const isChecking = ref(false)
@@ -102,7 +103,7 @@ const analyzeUrl = (inputUrl) => {
     
     // Education & Reference
     'wikipedia.org', 'wiki.org', 'coursera.org', 'udemy.com', 'khanacademy.org',
-    'edx.org', 'duolingo.com', 'quizlet.com',
+    'edx.org', 'duolingo.com', 'quizlet.com', 'etut.edu.tm',
     
     // Russian Services
     'yandex.ru', 'yandex.com', 'mail.ru', 'rambler.ru', 'avito.ru', 'ozon.ru',
@@ -125,6 +126,11 @@ const analyzeUrl = (inputUrl) => {
   // Check if it's a legitimate domain (exact match)
   if (legitimateDomains.includes(urlLower)) {
     return { isPhishing: false, scenario: null }
+  }
+  
+  // Easter egg for university domain - trigger confetti
+  if (urlLower.includes('etut.edu.tm')) {
+    return { isPhishing: false, scenario: null, isUniversity: true }
   }
   
   const urlLowerFull = inputUrl.toLowerCase()
@@ -226,6 +232,11 @@ const checkWebsite = () => {
     }
     isChecking.value = false
     
+    // Easter egg: Launch confetti for university domain
+    if (analysis.isUniversity) {
+      launchConfetti()
+    }
+    
     // Show tutorial dialog for phishing sites
     if (analysis.isPhishing) {
       tutorialData.value = {
@@ -236,6 +247,38 @@ const checkWebsite = () => {
       showTutorialDialog.value = true
     }
   }, 1500)
+}
+
+const launchConfetti = () => {
+  const duration = 3000
+  const animationEnd = Date.now() + duration
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 }
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min
+  }
+
+  const interval = setInterval(function() {
+    const timeLeft = animationEnd - Date.now()
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval)
+    }
+
+    const particleCount = 50 * (timeLeft / duration)
+    
+    // Create confetti from multiple points
+    confetti({
+      ...defaults,
+      particleCount,
+      origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+    })
+    confetti({
+      ...defaults,
+      particleCount,
+      origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+    })
+  }, 250)
 }
 
 const closeTutorial = () => {
