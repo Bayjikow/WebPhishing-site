@@ -51,21 +51,97 @@ const phishingScenarios = [
 ]
 
 const analyzeUrl = (inputUrl) => {
-  const urlLower = inputUrl.toLowerCase()
+  const urlLower = inputUrl.toLowerCase().replace('https://', '').replace('http://', '').replace('www.', '').split('/')[0]
   
-  // Check for specific phishing patterns
-  if (urlLower.includes('paypal') || urlLower.includes('paypa')) {
+  // Whitelist of legitimate domains - these are SAFE
+  const legitimateDomains = [
+    // Google Services
+    'google.com', 'google.ru', 'google.co.uk', 'google.de', 'google.fr', 'google.es', 'google.it',
+    'gmail.com', 'youtube.com', 'youtu.be', 'drive.google.com', 'meet.google.com', 'maps.google.com',
+    'play.google.com', 'docs.google.com', 'photos.google.com', 'calendar.google.com',
+    
+    // Microsoft Services
+    'microsoft.com', 'office.com', 'office365.com', 'outlook.com', 'live.com', 'hotmail.com',
+    'msn.com', 'bing.com', 'xbox.com', 'skype.com', 'onedrive.com', 'azure.com',
+    
+    // Apple Services
+    'apple.com', 'icloud.com', 'me.com', 'mac.com', 'itunes.com', 'appstore.com',
+    
+    // Social Media
+    'facebook.com', 'fb.com', 'instagram.com', 'whatsapp.com', 'messenger.com',
+    'twitter.com', 'x.com', 'linkedin.com', 'pinterest.com', 'snapchat.com',
+    'tiktok.com', 'reddit.com', 'tumblr.com', 'discord.com', 'telegram.org',
+    'vk.com', 'vk.ru', 'ok.ru', 'viber.com',
+    
+    // E-commerce
+    'amazon.com', 'amazon.ru', 'amazon.co.uk', 'amazon.de', 'amazon.fr', 'amazon.es', 'amazon.it',
+    'ebay.com', 'aliexpress.com', 'alibaba.com', 'etsy.com', 'walmart.com', 'target.com',
+    'bestbuy.com', 'ikea.com', 'shopify.com',
+    
+    // Payment Services
+    'paypal.com', 'paypal.ru', 'stripe.com', 'square.com', 'venmo.com',
+    
+    // Streaming & Entertainment
+    'netflix.com', 'spotify.com', 'twitch.tv', 'hulu.com', 'disneyplus.com',
+    'primevideo.com', 'hbomax.com', 'crunchyroll.com', 'soundcloud.com', 'pandora.com',
+    
+    // Video Conferencing
+    'zoom.us', 'teams.microsoft.com', 'webex.com', 'gotomeeting.com',
+    
+    // Cloud Storage & Productivity
+    'dropbox.com', 'box.com', 'notion.so', 'evernote.com', 'trello.com',
+    'slack.com', 'asana.com', 'monday.com', 'airtable.com',
+    
+    // Development & Tech
+    'github.com', 'gitlab.com', 'bitbucket.org', 'stackoverflow.com', 'stackexchange.com',
+    'npmjs.com', 'pypi.org', 'docker.com', 'kubernetes.io', 'jenkins.io',
+    
+    // News & Media
+    'cnn.com', 'bbc.com', 'bbc.co.uk', 'nytimes.com', 'theguardian.com', 'reuters.com',
+    'bloomberg.com', 'forbes.com', 'techcrunch.com', 'medium.com',
+    
+    // Education & Reference
+    'wikipedia.org', 'wiki.org', 'coursera.org', 'udemy.com', 'khanacademy.org',
+    'edx.org', 'duolingo.com', 'quizlet.com',
+    
+    // Russian Services
+    'yandex.ru', 'yandex.com', 'mail.ru', 'rambler.ru', 'avito.ru', 'ozon.ru',
+    'wildberries.ru', 'sberbank.ru', 'tinkoff.ru', 'gosuslugi.ru',
+    
+    // Banking & Finance
+    'chase.com', 'bankofamerica.com', 'wellsfargo.com', 'citibank.com',
+    'capitalone.com', 'discover.com', 'americanexpress.com',
+    
+    // Travel
+    'booking.com', 'airbnb.com', 'expedia.com', 'tripadvisor.com', 'hotels.com',
+    'kayak.com', 'skyscanner.com',
+    
+    // Other Popular Services
+    'adobe.com', 'canva.com', 'figma.com', 'wordpress.com', 'blogger.com',
+    'wix.com', 'squarespace.com', 'godaddy.com', 'namecheap.com',
+    'cloudflare.com', 'digitalocean.com', 'heroku.com', 'vercel.com'
+  ]
+  
+  // Check if it's a legitimate domain (exact match)
+  if (legitimateDomains.includes(urlLower)) {
+    return { isPhishing: false, scenario: null }
+  }
+  
+  const urlLowerFull = inputUrl.toLowerCase()
+  
+  // Check for specific phishing patterns with typos
+  if ((urlLowerFull.includes('paypa1') || urlLowerFull.includes('paypai') || urlLowerFull.includes('paypa-')) && !legitimateDomains.includes(urlLower)) {
     return { scenario: phishingScenarios[0], isPhishing: true } // PayPal scenario
   }
-  if (urlLower.includes('amazon')) {
+  if ((urlLowerFull.includes('arnazon') || urlLowerFull.includes('amazom') || urlLowerFull.includes('amazon-')) && !legitimateDomains.includes(urlLower)) {
     return { scenario: phishingScenarios[1], isPhishing: true } // Amazon scenario
   }
-  if (urlLower.includes('microsoft') || urlLower.includes('office') || urlLower.includes('microssoft') || urlLower.includes('microsofl')) {
+  if ((urlLowerFull.includes('microsofl') || urlLowerFull.includes('microssoft') || urlLowerFull.includes('microsoft-')) && !legitimateDomains.includes(urlLower)) {
     return { scenario: phishingScenarios[2], isPhishing: true } // Microsoft scenario
   }
   
   // Try to detect the real brand from common typos
-  if (urlLower.includes('google') || urlLower.includes('gooogle') || urlLower.includes('gogle') || urlLower.includes('googl')) {
+  if ((urlLowerFull.includes('gooogle') || urlLowerFull.includes('gogle') || urlLowerFull.includes('googl1') || urlLowerFull.includes('goog1e')) && !legitimateDomains.includes(urlLower)) {
     return {
       isPhishing: true,
       scenario: {
@@ -80,14 +156,14 @@ const analyzeUrl = (inputUrl) => {
     }
   }
   
-  if (urlLower.includes('apple') || urlLower.includes('appl')) {
+  if ((urlLowerFull.includes('appl3') || urlLowerFull.includes('app1e') || urlLowerFull.includes('apple-')) && !legitimateDomains.includes(urlLower)) {
     return {
       isPhishing: true,
       scenario: {
         url: inputUrl,
         realUrl: 'https://apple.com',
         issues: [
-          { type: 'domain', text: inputUrl.replace('https://', '').replace('http://', ''), highlight: 'suspicious pattern', correct: 'apple.com', description: 'Domain mimics Apple but with variations' },
+          { type: 'domain', text: urlLower, highlight: 'suspicious pattern', correct: 'apple.com', description: 'Domain mimics Apple but with variations' },
           { type: 'protocol', text: 'HTTP (not secure)', description: 'Real Apple always uses HTTPS encryption' },
           { type: 'age', text: 'Domain age: 5 days', description: 'Newly registered, likely malicious' }
         ]
@@ -95,14 +171,14 @@ const analyzeUrl = (inputUrl) => {
     }
   }
   
-  if (urlLower.includes('facebook') || urlLower.includes('fb')) {
+  if ((urlLowerFull.includes('faceb00k') || urlLowerFull.includes('facebook-') || urlLowerFull.includes('face-book')) && !legitimateDomains.includes(urlLower)) {
     return {
       isPhishing: true,
       scenario: {
         url: inputUrl,
         realUrl: 'https://facebook.com',
         issues: [
-          { type: 'domain', text: inputUrl.replace('https://', '').replace('http://', ''), highlight: 'variation', correct: 'facebook.com', description: 'Domain is not the official Facebook domain' },
+          { type: 'domain', text: urlLower, highlight: 'variation', correct: 'facebook.com', description: 'Domain is not the official Facebook domain' },
           { type: 'ssl', text: 'Self-signed certificate', description: 'Not issued by trusted authority' },
           { type: 'redirect', text: 'Suspicious redirect detected', description: 'Page redirects to unknown server' }
         ]

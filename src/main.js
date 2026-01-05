@@ -16,9 +16,14 @@ const app = createApp(App)
 
 app.use(PrimeVue, {
   theme: {
-    preset: Aura
+    preset: Aura,
+    options: {
+      darkModeSelector: '.portal-dark'
+    }
   }
 })
+
+document.documentElement.classList.add('portal-dark')
 
 app.component('InputText', InputText)
 app.component('Button', Button)

@@ -4,20 +4,66 @@
   font-weight: 400;
   color: #ffffff;
   background-color: #1e3a5f;
+  --portal-surface-1: #0f1419;
+  --portal-surface-2: #1a1f2e;
+  --portal-surface-3: #252a3a;
+  --portal-border: rgba(255, 255, 255, 0.08);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+html.portal-dark {
+  color-scheme: dark;
+}
+
+/* Force dark theme for all PrimeVue Dialog components */
+.p-dialog {
+  background: linear-gradient(135deg, rgba(30, 50, 80, 0.98) 0%, rgba(40, 60, 90, 0.98) 100%) !important;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(100, 181, 246, 0.3) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+.p-dialog .p-dialog-header {
+  background: linear-gradient(135deg, rgba(77, 208, 225, 0.15) 0%, rgba(100, 181, 246, 0.15) 100%) !important;
+  border-bottom: 2px solid rgba(100, 181, 246, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.p-dialog .p-dialog-content {
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+.p-dialog .p-dialog-footer {
+  background: rgba(20, 40, 70, 0.5) !important;
+  border-top: 2px solid rgba(100, 181, 246, 0.2) !important;
+}
+
+.p-dialog .p-dialog-title {
+  color: #ffffff !important;
+}
+
 * {
   box-sizing: border-box;
+}
+
+/* FORCE DARK THEME - OVERRIDE ALL */
+.p-card,
+.p-card-body,
+.p-card-content,
+.panel {
+  background: #1a1f2e !important;
+  color: #ffffff !important;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #2c5f8d 0%, #1e3a5f 50%, #4a7ba7 100%);
+  background: linear-gradient(135deg, #1a2332 0%, #0f1419 50%, #1a2332 100%) !important;
   position: relative;
   overflow-x: hidden;
 }
@@ -198,9 +244,9 @@ h1 {
 .panel {
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
-  background: rgba(30, 50, 80, 0.85);
+  background: var(--portal-surface-2) !important;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--portal-border);
   transition: all 0.3s ease;
 }
 
@@ -236,7 +282,7 @@ h1 {
 }
 
 .result {
-  background: rgba(30, 50, 80, 0.85);
+  background: var(--portal-surface-2) !important;
 }
 
 .result-header {
@@ -277,13 +323,13 @@ h1 {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 14px;
   line-height: 1.6;
-  padding: 14px 16px;
-  background: rgba(200, 220, 240, 0.15);
+  padding: 16px 20px;
+  background: rgba(40, 45, 55, 0.6);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(5px);
 }
 
@@ -294,7 +340,7 @@ h1 {
 }
 
 .tips {
-  background: rgba(30, 50, 80, 0.85);
+  background: var(--portal-surface-2) !important;
 }
 
 .tips-grid {
@@ -307,10 +353,10 @@ h1 {
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  padding: 18px;
+  padding: 20px;
   border-radius: 14px;
-  background: rgba(80, 120, 160, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(30, 35, 45, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
@@ -319,8 +365,8 @@ h1 {
 }
 
 .tip-item:hover {
-  background: rgba(100, 140, 180, 0.25);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(40, 45, 55, 0.8);
+  border-color: rgba(255, 255, 255, 0.12);
   transform: translateY(-2px);
 }
 
@@ -331,7 +377,13 @@ h1 {
 }
 
 /* PrimeVue Card customization */
-:deep(.p-card-title) {
+.p-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.p-card-title {
   font-size: 19px;
   font-weight: 600;
   color: #ffffff;
@@ -339,42 +391,44 @@ h1 {
   margin-bottom: 4px;
 }
 
-:deep(.p-card-body) {
+.p-card-body {
   padding: 32px;
+  background: transparent !important;
 }
 
-:deep(.p-card-content) {
+.p-card-content {
   padding: 0;
+  background: transparent !important;
 }
 
 /* PrimeVue components refinement */
-:deep(.p-inputtext) {
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
+.p-inputtext {
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 12px 16px;
   font-size: 14px;
   transition: all 0.3s ease;
-  background: rgba(20, 40, 70, 0.5);
+  background: rgba(15, 20, 30, 0.7);
   color: #ffffff;
   backdrop-filter: blur(5px);
 }
 
-:deep(.p-inputtext::placeholder) {
+.p-inputtext::placeholder {
   color: rgba(255, 255, 255, 0.4);
 }
 
-:deep(.p-inputtext:hover) {
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(30, 50, 80, 0.6);
+.p-inputtext:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(20, 25, 35, 0.8);
 }
 
-:deep(.p-inputtext:focus) {
-  border-color: #64b5f6;
-  box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
-  background: rgba(30, 50, 80, 0.7);
+.p-inputtext:focus {
+  border-color: #4dd0e1;
+  box-shadow: 0 0 0 3px rgba(77, 208, 225, 0.2);
+  background: rgba(20, 25, 35, 0.9);
 }
 
-:deep(.p-button) {
+.p-button {
   border-radius: 12px;
   padding: 12px 28px;
   font-weight: 600;
@@ -387,25 +441,25 @@ h1 {
   color: #0f172a;
 }
 
-:deep(.p-button:hover) {
+.p-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(77, 208, 225, 0.4);
   background: #80deea;
   border-color: #80deea;
 }
 
-:deep(.p-progressbar) {
+.p-progressbar {
   height: 10px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.15);
   overflow: hidden;
 }
 
-:deep(.p-progressbar-value) {
+.p-progressbar-value {
   border-radius: 10px;
 }
 
-:deep(.p-tag) {
+.p-tag {
   font-size: 12px;
   font-weight: 600;
   padding: 6px 14px;
@@ -414,32 +468,41 @@ h1 {
   backdrop-filter: blur(5px);
 }
 
-:deep(.p-tag.p-tag-info) {
+.p-tag.p-tag-info {
   background: rgba(100, 181, 246, 0.25);
   color: #90caf9;
   border: 1px solid rgba(100, 181, 246, 0.3);
 }
 
-:deep(.p-tag.p-tag-success) {
+.p-tag.p-tag-success {
   background: rgba(102, 187, 106, 0.25);
   color: #a5d6a7;
   border: 1px solid rgba(102, 187, 106, 0.3);
 }
 
-:deep(.p-tag.p-tag-warning) {
+.p-tag.p-tag-warning {
   background: rgba(255, 167, 38, 0.25);
   color: #ffb74d;
   border: 1px solid rgba(255, 167, 38, 0.3);
 }
 
-:deep(.p-tag.p-tag-danger) {
+.p-tag.p-tag-danger {
   background: rgba(239, 68, 68, 0.25);
   color: #ff8a80;
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 /* Tutorial Dialog Styles */
-.tutorial-dialog :deep(.p-dialog) {
+.p-dialog {
+  background: linear-gradient(135deg, rgba(30, 50, 80, 0.98) 0%, rgba(40, 60, 90, 0.98) 100%) !important;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(100, 181, 246, 0.3);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.tutorial-dialog .p-dialog {
   background: linear-gradient(135deg, rgba(30, 50, 80, 0.98) 0%, rgba(40, 60, 90, 0.98) 100%);
   backdrop-filter: blur(20px);
   border: 2px solid rgba(100, 181, 246, 0.3);
@@ -448,18 +511,36 @@ h1 {
   overflow: hidden;
 }
 
-.tutorial-dialog :deep(.p-dialog-header) {
+.p-dialog-header {
+  background: linear-gradient(135deg, rgba(77, 208, 225, 0.15) 0%, rgba(100, 181, 246, 0.15) 100%) !important;
+  border-bottom: 2px solid rgba(100, 181, 246, 0.2);
+  padding: 24px 32px;
+}
+
+.p-dialog-content {
+  padding: 32px;
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+.p-dialog-footer {
+  background: rgba(20, 40, 70, 0.5) !important;
+  border-top: 2px solid rgba(100, 181, 246, 0.2);
+  padding: 20px 32px;
+}
+
+.tutorial-dialog .p-dialog-header {
   background: linear-gradient(135deg, rgba(77, 208, 225, 0.15) 0%, rgba(100, 181, 246, 0.15) 100%);
   border-bottom: 2px solid rgba(100, 181, 246, 0.2);
   padding: 24px 32px;
 }
 
-.tutorial-dialog :deep(.p-dialog-content) {
+.tutorial-dialog .p-dialog-content {
   padding: 32px;
   color: #ffffff;
 }
 
-.tutorial-dialog :deep(.p-dialog-footer) {
+.tutorial-dialog .p-dialog-footer {
   background: rgba(20, 40, 70, 0.5);
   border-top: 2px solid rgba(100, 181, 246, 0.2);
   padding: 20px 32px;
@@ -588,11 +669,11 @@ h1 {
   letter-spacing: 0.1em;
 }
 
-:deep(.p-divider) {
+.p-divider {
   border-color: rgba(100, 181, 246, 0.2);
 }
 
-:deep(.p-divider::before) {
+.p-divider::before {
   border-color: rgba(100, 181, 246, 0.2);
 }
 
@@ -790,7 +871,7 @@ h1 {
   justify-content: center;
 }
 
-.tutorial-footer :deep(.p-button) {
+.tutorial-footer .p-button {
   padding: 14px 40px;
   font-size: 16px;
   border-radius: 12px;
@@ -800,7 +881,7 @@ h1 {
   transition: all 0.3s ease;
 }
 
-.tutorial-footer :deep(.p-button:hover) {
+.tutorial-footer .p-button:hover {
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 6px 25px rgba(76, 175, 80, 0.6);
 }
@@ -819,7 +900,7 @@ h1 {
     align-items: flex-start;
   }
 
-  :deep(.p-card-body) {
+  .p-card-body {
     padding: 24px;
   }
 
@@ -828,14 +909,14 @@ h1 {
   }
 
   /* Tutorial dialog mobile */
-  .tutorial-dialog :deep(.p-dialog) {
+  .tutorial-dialog .p-dialog {
     border-radius: 16px;
     margin: 10px;
   }
 
-  .tutorial-dialog :deep(.p-dialog-header),
-  .tutorial-dialog :deep(.p-dialog-content),
-  .tutorial-dialog :deep(.p-dialog-footer) {
+  .tutorial-dialog .p-dialog-header,
+  .tutorial-dialog .p-dialog-content,
+  .tutorial-dialog .p-dialog-footer {
     padding: 20px;
   }
 
@@ -875,7 +956,7 @@ h1 {
     align-items: flex-start;
   }
 
-  .tutorial-footer :deep(.p-button) {
+  .tutorial-footer .p-button {
     width: 100%;
   }
 
@@ -897,4 +978,37 @@ h1 {
     width: 50px;
     height: 50px;
   }
+}
+
+/* Force all PrimeVue surfaces to dark */
+body .p-card,
+body .p-dialog,
+body .p-panel,
+body .p-fieldset,
+body .p-overlaypanel,
+body .p-popover,
+body .p-menu,
+body .p-menubar,
+body .p-tieredmenu,
+body .p-contextmenu,
+body .p-dropdown-panel,
+body .p-multiselect-panel,
+body .p-select-panel,
+body .p-datepicker {
+  background: var(--portal-surface-1) !important;
+  color: #ffffff !important;
+  border-color: var(--portal-border) !important;
+}
+
+body .p-card-body,
+body .p-card-content,
+body .p-dialog-content,
+body .p-dialog-header,
+body .p-dialog-footer,
+body .p-panel-content,
+body .p-overlaypanel-content,
+body .p-menu-list,
+body .p-menuitem-content {
+  background: transparent !important;
+  color: inherit !important;
 }
